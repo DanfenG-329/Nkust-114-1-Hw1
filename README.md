@@ -18,16 +18,16 @@ LightRailApp/
 
 ├── App_Data/
 
-│   └── data.json           #來源資料檔
+│   └── data.json           # 來源資料檔
 
-├── Migrations/             #EF Core 自動產生的資料庫遷移紀錄
+├── Migrations/             # EF Core 自動產生的資料庫遷移紀錄
 
-├── LightRailDbContext.cs   #資料庫連線設定 (DbContext)
+├── LightRailDbContext.cs   # 資料庫連線設定 (DbContext)
 
-├── LightRailEntity.cs      #資料庫實體模型 (Schema)
+├── LightRailEntity.cs      # 資料庫實體模型 (Schema)
 
-├── LightRailJsonModel.cs   #JSON 對應模型 (含中文屬性對應)
+├── LightRailJsonModel.cs   # JSON 對應模型 (含中文屬性對應)
 
-├── Program.cs              #主程式邏輯 (讀取、寫入、查詢)
+├── Program.cs              # 主程式邏輯 (讀取、寫入、查詢)
 
-└── LightRailApp.csproj     #專案設定檔
+└── LightRailApp.csproj     # 專案設定檔
