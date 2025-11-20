@@ -1,8 +1,8 @@
 # 期中作業
-高雄輕軌運量資料庫系統 (Kaohsiung Light Rail Data Importer)
+# 高雄輕軌運量資料庫系統 (Kaohsiung Light Rail Data Importer)
 這是一個使用 .NET 8.0 開發的主控台應用程式 (Console Application)，旨在示範如何將政府開放資料 (JSON) 透過 Entity Framework Core 匯入至 SQL Server LocalDB 資料庫，並執行基礎的數據查詢與統計。
 
-📋 專案功能
+# 📋 專案功能
 JSON 資料解析：使用 System.Text.Json 讀取並反序列化高雄輕軌運量資料（處理中文欄位名稱）。
 
 資料庫整合：使用 Entity Framework Core (EF Core) 建立與管理資料庫。
@@ -13,13 +13,13 @@ JSON 資料解析：使用 System.Text.Json 讀取並反序列化高雄輕軌運
 
 數據查詢：示範使用 LINQ 進行資料篩選、排序與統計（如：查詢特定月份運量、關鍵字搜尋）。
 
-🛠️ 技術堆疊
-
-開發語言：C# (.NET 8.0) 
-
-
-資料庫 ORM：Entity Framework Core (8.0.22) 
-
-資料庫引擎：SQL Server Express LocalDB
-
-開發工具：Visual Studio 2022
+#📂 專案結構
+LightRailApp/
+├── App_Data/
+│   └── data.json           # 來源資料檔
+├── Migrations/             # EF Core 自動產生的資料庫遷移紀錄
+├── LightRailDbContext.cs   # 資料庫連線設定 (DbContext)
+├── LightRailEntity.cs      # 資料庫實體模型 (Schema)
+├── LightRailJsonModel.cs   # JSON 對應模型 (含中文屬性對應)
+├── Program.cs              # 主程式邏輯 (讀取、寫入、查詢)
+└── LightRailApp.csproj     # 專案設定檔
