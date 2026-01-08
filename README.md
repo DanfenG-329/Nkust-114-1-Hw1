@@ -4,7 +4,7 @@
 
 這是一個使用 .NET 8.0 開發的主控台應用程式 (Console Application)，旨在示範如何將政府開放資料 (JSON) 透過 Entity Framework Core 匯入至 SQL Server LocalDB 資料庫，並執行基礎的數據查詢與統計。
 
-# 📋 專案功能
+ 📋 專案功能
 
 JSON 資料解析：使用 System.Text.Json 讀取並反序列化高雄輕軌運量資料（處理中文欄位名稱）。
 
@@ -16,7 +16,7 @@ JSON 資料解析：使用 System.Text.Json 讀取並反序列化高雄輕軌運
 
 數據查詢：示範使用 LINQ 進行資料篩選、排序與統計（如：查詢特定月份運量、關鍵字搜尋）。
 
-# 📂 專案結構
+ 📂 專案結構
 
 LightRailApp/
 
