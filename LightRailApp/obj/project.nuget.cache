@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wjAdvE+bano=",
+  "dgSpecHash": "V9Q/4RhRRso=",
   "success": true,
-  "projectFilePath": "C:\\Users\\a5243\\Desktop\\KaohsiungLightRail\\LightRailApp\\LightRailApp.csproj",
+  "projectFilePath": "C:\\Users\\a5243\\Desktop\\期中\\LightRailApp\\LightRailApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\a5243\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\a5243\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

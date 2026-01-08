@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LightRailApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+159fa207daffe10796b9b28294c7aaf32009d326")]
 [assembly: System.Reflection.AssemblyProductAttribute("LightRailApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LightRailApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

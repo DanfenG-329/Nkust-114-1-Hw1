@@ -4727,11 +4727,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\a5243\\Desktop\\KaohsiungLightRail\\LightRailApp\\LightRailApp.csproj",
+      "projectUniqueName": "C:\\Users\\a5243\\Desktop\\期中\\LightRailApp\\LightRailApp.csproj",
       "projectName": "LightRailApp",
-      "projectPath": "C:\\Users\\a5243\\Desktop\\KaohsiungLightRail\\LightRailApp\\LightRailApp.csproj",
+      "projectPath": "C:\\Users\\a5243\\Desktop\\期中\\LightRailApp\\LightRailApp.csproj",
       "packagesPath": "C:\\Users\\a5243\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\a5243\\Desktop\\KaohsiungLightRail\\LightRailApp\\obj\\",
+      "outputPath": "C:\\Users\\a5243\\Desktop\\期中\\LightRailApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

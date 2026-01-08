@@ -1,0 +1,91 @@
+﻿@model IEnumerable<LightRailWeb.Models.LightRailEntity>
+
+@{
+    ViewData["Title"] = "Index";
+    bool hasSearched = ViewData["HasSearched"] as bool? ?? false;
+}
+
+<h1>輕軌運量查詢</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">新增資料</a>
+</p>
+
+<form asp-controller="Rail" asp-action="Index" method="get" class="mb-3">
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label class="col-form-label">年份：</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="searchYear" value="@ViewData["CurrentYear"]" class="form-control" placeholder="輸入民國年 (如:113)">
+        </div>
+        
+        <div class="col-auto">
+            <label class="col-form-label">月份：</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" name="searchMonth" value="@ViewData["CurrentMonth"]" class="form-control" placeholder="輸入月份">
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-secondary">查詢</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">清除</a>
+        </div>
+    </div>
+</form>
+
+@if (hasSearched)
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Year)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Month)
+                </th>
+                <th>
+                    <a asp-action="Index" 
+                       asp-route-sortOrder="@ViewData["VolumeSortParm"]"
+                       asp-route-searchYear="@ViewData["CurrentYear"]" 
+                       asp-route-searchMonth="@ViewData["CurrentMonth"]">
+                        @Html.DisplayNameFor(model => model.TotalVolume) 
+                        (點我排序 ⇅)
+                    </a>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Note)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Month)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalVolume)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">請輸入搜尋條件後按「查詢」。</div>
+}}

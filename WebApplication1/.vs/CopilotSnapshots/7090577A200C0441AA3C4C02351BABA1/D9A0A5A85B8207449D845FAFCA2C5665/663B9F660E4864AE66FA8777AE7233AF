@@ -1,0 +1,36 @@
+﻿using Microsoft.EntityFrameworkCore; // 1. 記得加這個：引用 EF Core 功能
+using LightRailWeb.Data;           // 2. 記得加這個：引用您的 Data 資料夾 (請確認您的命名空間是否為 LightRailWeb)
+
+var builder = WebApplication.CreateBuilder(args);
+
+// === 3. 新增這段：註冊資料庫服務 (這就是第 4 步的核心) ===
+//這行會讀取 appsettings.json 裡的 "DefaultConnection" 連線字串
+builder.Services.AddDbContext<LightRailDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// ========================================================
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();

@@ -1,0 +1,204 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Globalization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using LightRailWeb.Data;
+using LightRailWeb.Models;
+
+namespace WebApplication1.Controllers
+{
+    public class RailController : Controller
+    {
+        private readonly LightRailDbContext _context;
+
+        public RailController(LightRailDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: Rail
+        public async Task<IActionResult> Index(string? searchYear, string? searchMonth, string? sortOrder)
+        {
+            // Preserve current search inputs in ViewData for the form
+            ViewData["CurrentYear"] = searchYear;
+            ViewData["CurrentMonth"] = searchMonth;
+
+            // Toggle sorting parameter used by the view
+            ViewData["VolumeSortParm"] = string.Equals(sortOrder, "volume_desc", StringComparison.OrdinalIgnoreCase) ? "" : "volume_desc";
+
+            // Management page should display all data by default
+            ViewData["HasSearched"] = true;
+
+            // Build query
+            var query = _context.LightRailStats.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchYear))
+            {
+                query = query.Where(x => x.Year == searchYear);
+            }
+            if (!string.IsNullOrEmpty(searchMonth))
+            {
+                query = query.Where(x => x.Month == searchMonth);
+            }
+
+            // Execute query first, then sort TotalVolume in-memory as numeric
+            var list = await query.ToListAsync();
+
+            decimal ParseVolume(string? v)
+            {
+                if (string.IsNullOrWhiteSpace(v)) return 0m;
+                // Remove common thousands separators and any non-numeric characters except dot and minus
+                var cleaned = new string(v.Where(c => char.IsDigit(c) || c == '.' || c == '-').ToArray());
+                if (decimal.TryParse(cleaned, NumberStyles.Number, CultureInfo.InvariantCulture, out var d))
+                    return d;
+
+                // Fallback: try current culture
+                return decimal.TryParse(cleaned, NumberStyles.Number, CultureInfo.CurrentCulture, out d) ? d : 0m;
+            }
+
+            if (string.Equals(sortOrder, "volume_desc", StringComparison.OrdinalIgnoreCase))
+            {
+                list = list.OrderByDescending(x => ParseVolume(x.TotalVolume)).ToList();
+            }
+            else
+            {
+                list = list.OrderBy(x => ParseVolume(x.TotalVolume)).ToList();
+            }
+
+            return View(list);
+        }
+
+        // GET: Rail/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lightRailEntity = await _context.LightRailStats
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (lightRailEntity == null)
+            {
+                return NotFound();
+            }
+
+            return View(lightRailEntity);
+        }
+
+        // GET: Rail/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Rail/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Seq,Year,Month,TotalVolume,DailyAvg,HolidayAvg,PlatformSwipe,OnboardSwipe,QRCode,Note")] LightRailEntity lightRailEntity)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(lightRailEntity);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(lightRailEntity);
+        }
+
+        // GET: Rail/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lightRailEntity = await _context.LightRailStats.FindAsync(id);
+            if (lightRailEntity == null)
+            {
+                return NotFound();
+            }
+            return View(lightRailEntity);
+        }
+
+        // POST: Rail/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Seq,Year,Month,TotalVolume,DailyAvg,HolidayAvg,PlatformSwipe,OnboardSwipe,QRCode,Note")] LightRailEntity lightRailEntity)
+        {
+            if (id != lightRailEntity.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(lightRailEntity);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!LightRailEntityExists(lightRailEntity.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(lightRailEntity);
+        }
+
+        // GET: Rail/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lightRailEntity = await _context.LightRailStats
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (lightRailEntity == null)
+            {
+                return NotFound();
+            }
+
+            return View(lightRailEntity);
+        }
+
+        // POST: Rail/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var lightRailEntity = await _context.LightRailStats.FindAsync(id);
+            if (lightRailEntity != null)
+            {
+                _context.LightRailStats.Remove(lightRailEntity);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool LightRailEntityExists(int id)
+        {
+            return _context.LightRailStats.Any(e => e.Id == id);
+        }
+    }
+}
